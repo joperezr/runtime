@@ -2,6 +2,7 @@
   <PropertyGroup>
     <BuildConfigurations>
         $(NetCoreAppCurrent)-Windows_NT;
+        $(NetCoreAppCurrent)-Linux;
         $(NetFrameworkCurrent);
     </BuildConfigurations>
   </PropertyGroup>
