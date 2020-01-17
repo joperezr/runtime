@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Xunit;
 
 namespace System.DirectoryServices.Protocols.Tests
@@ -19,6 +20,13 @@ namespace System.DirectoryServices.Protocols.Tests
         [InlineData("server", new string[] { "server" })]
         public void Ctor_String(string server, string[] expectedServer)
         {
+            while (!Debugger.IsAttached)
+            {
+                Console.WriteLine("Attach Now!!");
+                Thread.Sleep(TimeSpan.FromSeconds(2));
+            }
+            Debugger.Break();
+
             var connection = new LdapConnection(server);
             Assert.Equal(AuthType.Negotiate, connection.AuthType);
             Assert.True(connection.AutoBind);
