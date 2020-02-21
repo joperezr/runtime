@@ -632,7 +632,7 @@ namespace System.DirectoryServices.Protocols
         public int TotalCount { get; }
     }
 
-    public class SortRequestControl : DirectoryControl
+    public partial class SortRequestControl : DirectoryControl
     {
         private SortKey[] _keys = Array.Empty<SortKey>();
         public SortRequestControl(params SortKey[] sortKeys) : base("1.2.840.113556.1.4.473", null, true, true)
@@ -729,7 +729,7 @@ namespace System.DirectoryServices.Protocols
                 Marshal.WriteIntPtr(tempPtr, IntPtr.Zero);
 
                 bool critical = IsCritical;
-                int error = Wldap32.ldap_create_sort_control(UtilityHandle.GetHandle(), memHandle, critical ? (byte)1 : (byte)0, ref control);
+                int error = PALLdap_Create_Sort_Control(UtilityHandle.GetHandle(), memHandle, critical ? (byte)1 : (byte)0, ref control);
 
                 if (error != 0)
                 {
@@ -759,7 +759,7 @@ namespace System.DirectoryServices.Protocols
             {
                 if (control != IntPtr.Zero)
                 {
-                    Wldap32.ldap_control_free(control);
+                    PALLdap_Control_Free(control);
                 }
 
                 if (memHandle != IntPtr.Zero)

@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace System.DirectoryServices.Protocols
 {
-    internal class LdapPartialResultsProcessor
+    internal partial class LdapPartialResultsProcessor
     {
         private readonly ArrayList _resultList = new ArrayList();
         private readonly ManualResetEvent _workThreadWaitHandle = null;
@@ -214,7 +214,7 @@ namespace System.DirectoryServices.Protocols
                 asyncResult._resultStatus = ResultsStatus.Done;
 
                 // Need to abandon this request.
-                Wldap32.ldap_abandon(connection._ldapHandle, asyncResult._messageID);
+                PALLdap_Abandon(connection._ldapHandle, asyncResult._messageID);
             }
         }
 
