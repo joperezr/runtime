@@ -5,7 +5,9 @@
 using System.Text;
 using System;
 using System.Globalization;
+#if !NETSTANDARD1_3
 using System.Runtime.Serialization;
+#endif
 
 namespace System.Text
 {
@@ -20,7 +22,10 @@ namespace System.Text
     // class are typically obtained through calls to the GetDecoder method
     // of Encoding objects.
     //
-    internal class DecoderNLS : Decoder, ISerializable
+    internal class DecoderNLS : Decoder
+#if !NETSTANDARD1_3
+        , ISerializable
+#endif
     {
         // Remember our encoding
         protected EncodingNLS m_encoding;
@@ -37,10 +42,12 @@ namespace System.Text
             Reset();
         }
 
+#if !NETSTANDARD1_3
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             throw new PlatformNotSupportedException();
         }
+#endif
 
         internal new DecoderFallback Fallback
         {

@@ -2,9 +2,11 @@
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
+    <!--Adding this property is only temporary, so that VS will only build netstandard1.3 configuration so we can iterate fast on the changes needed to get the configuration building-->
+    <BuildTargetFramework>netstandard1.3</BuildTargetFramework>
     <!-- copy the Windows-specific implementation to net461 folder so that restore without a RID works -->
     <PackageTargetFramework Condition="'$(TargetsNetStandard)' == 'true' and '$(TargetsWindows)' == 'true'">netstandard2.0;net461</PackageTargetFramework>
-    <TargetFrameworks>$(NetCoreAppCurrent)-Windows_NT;netstandard2.0;netcoreapp2.0-Windows_NT;netstandard2.0-Windows_NT</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;$(NetCoreAppCurrent)-Windows_NT;netcoreapp2.0-Windows_NT;netstandard2.0;netstandard2.0-Windows_NT;</TargetFrameworks>
     <ExcludeCurrentNetCoreAppFromPackage>true</ExcludeCurrentNetCoreAppFromPackage>
   </PropertyGroup>
   <ItemGroup>
@@ -67,6 +69,12 @@
     <Reference Include="System.Runtime.InteropServices" />
     <Reference Include="System.Threading" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <Reference Include="System.Text.Encoding" />
+    <Reference Include="System.Runtime.Handles" />
+    <Reference Include="System.IO" />
+    <Reference Include="System.Reflection" />
   </ItemGroup>
   <!-- Generator for code mapping table, target to invoke is GenerateEncodingSource -->
   <PropertyGroup>

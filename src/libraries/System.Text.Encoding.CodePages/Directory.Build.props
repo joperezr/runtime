@@ -3,5 +3,6 @@
   <PropertyGroup>
     <StrongNameKeyId>Microsoft</StrongNameKeyId>
     <IsNETCoreApp>true</IsNETCoreApp>
+    <AssemblyVersion Condition="'$(TargetFramework)' == 'netstandard1.3'">4.0.2.0</AssemblyVersion>
   </PropertyGroup>
 </Project>

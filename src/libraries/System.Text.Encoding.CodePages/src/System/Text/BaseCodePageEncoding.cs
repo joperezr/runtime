@@ -7,7 +7,9 @@ using System.IO;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
+#if !NETSTANDARD1_3
 using System.Runtime.Serialization;
+#endif
 
 namespace System.Text
 {
@@ -41,7 +43,12 @@ namespace System.Text
     //       WORD        byteReplace;    // 2 bytes = 48     // default replacement byte(s)
     //       BYTE[]      data;           // data section
     //   }
-    internal abstract class BaseCodePageEncoding : EncodingNLS, ISerializable
+    internal abstract class BaseCodePageEncoding : EncodingNLS
+#if !NETSTANDARD1_3
+#pragma warning disable SA1001 //Disable warning for commas preceded by whitespace
+    ,ISerializable
+#pragma warning restore SA1001
+#endif
     {
         internal const string CODE_PAGE_DATA_FILE_NAME = "codepages.nlp";
 
@@ -78,10 +85,12 @@ namespace System.Text
             LoadCodePageTables();
         }
 
+#if !NETSTANDARD1_3
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             throw new PlatformNotSupportedException();
         }
+#endif
 
         //
         // This is the header for the native data table that we load from CODE_PAGE_DATA_FILE_NAME.
