@@ -17,41 +17,7 @@ namespace System.DirectoryServices.Protocols
 {
     public partial class LdapSessionOptions
     {
-        private int PALldap_get_option_secInfo(ConnectionHandle ldapHandle, LdapOption option, SecurityPackageContextConnectionInformation outValue) => Wldap32.ldap_get_option_secInfo(ldapHandle, option, outValue);
-
-        private int PALldap_get_option_sechandle(ConnectionHandle ldapHandle, LdapOption option, ref SecurityHandle outValue) => Wldap32.ldap_get_option_sechandle(ldapHandle, option, ref outValue);
-
-        private int PALldap_set_option_clientcert(ConnectionHandle ldapHandle, LdapOption option, QUERYCLIENTCERT outValue) => Wldap32.ldap_set_option_clientcert(ldapHandle, option, outValue);
-
-        private int PALldap_set_option_servercert(ConnectionHandle ldapHandle, LdapOption option, VERIFYSERVERCERT outValue) => Wldap32.ldap_set_option_servercert(ldapHandle, option, outValue);
-
-        private int PALldap_set_option_int(ConnectionHandle ld, LdapOption option, ref int inValue) => Wldap32.ldap_set_option_int(ld, option, ref inValue);
-
-        private unsafe int PALldap_start_tls(ConnectionHandle ldapHandle, ref int ServerReturnValue, ref IntPtr Message, IntPtr ServerControls, IntPtr ClientControls) => Wldap32.ldap_start_tls(ldapHandle, ref ServerReturnValue, ref Message, ServerControls, ClientControls);
-
-        private unsafe int PALldap_parse_result_referral(ConnectionHandle ldapHandle, IntPtr result, IntPtr serverError, IntPtr dn, IntPtr message, ref IntPtr referral, IntPtr control, byte freeIt)
-        {
-            int resultError = Wldap32.ldap_parse_result_referral(ldapHandle, result, serverError, dn, message, ref referral, control, freeIt);
-            return resultError;
-        }
-
-        private static unsafe void PALldap_value_free(IntPtr referral) => Wldap32.ldap_value_free(referral);
-
-        private byte PALLdap_stop_tls() => Wldap32.ldap_stop_tls(_connection._ldapHandle);
-
-        private int PALldap_get_option_int(ConnectionHandle ldapHandle, LdapOption option, ref int outValue) => Wldap32.ldap_get_option_int(ldapHandle, option, ref outValue);
-
-        private int PALldap_get_option_ptr(ConnectionHandle ldapHandle, LdapOption option, ref IntPtr outValue) => Wldap32.ldap_get_option_ptr(ldapHandle, option, ref outValue);
-
-        private static void PALldap_memfree(IntPtr outValue) => Wldap32.ldap_memfree(outValue);
-
-        private int PALldap_set_option_ptr(ConnectionHandle ldapHandle, LdapOption option, ref IntPtr inValue) => Wldap32.ldap_set_option_ptr(ldapHandle, option, ref inValue);
-
-        private int PALldap_set_option_referral(ConnectionHandle ldapHandle, LdapOption option, ref LdapReferralCallback outValue) => Wldap32.ldap_set_option_referral(ldapHandle, option, ref outValue);
-
         private static void PALCertFreeCRLContext(IntPtr certPtr) => Wldap32.CertFreeCRLContext(certPtr);
-
-
 
         internal bool FQDN
         {

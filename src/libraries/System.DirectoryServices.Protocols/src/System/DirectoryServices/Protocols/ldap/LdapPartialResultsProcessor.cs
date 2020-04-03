@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace System.DirectoryServices.Protocols
 {
-    internal partial class LdapPartialResultsProcessor
+    internal class LdapPartialResultsProcessor
     {
         private readonly ArrayList _resultList = new ArrayList();
         private readonly ManualResetEvent _workThreadWaitHandle = null;
@@ -214,7 +214,7 @@ namespace System.DirectoryServices.Protocols
                 asyncResult._resultStatus = ResultsStatus.Done;
 
                 // Need to abandon this request.
-                PALLdap_Abandon(connection._ldapHandle, asyncResult._messageID);
+                NativePal.LdapAbandon(connection._ldapHandle, asyncResult._messageID);
             }
         }
 

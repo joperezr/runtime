@@ -37,19 +37,15 @@
     <Compile Include="System\DirectoryServices\Protocols\ldap\SafeHandles.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetsWindows)' == 'true'">
-    <Compile Include="System\DirectoryServices\Protocols\common\BerConverter.Windows.cs" />
-    <Compile Include="System\DirectoryServices\Protocols\common\DirectoryControl.Windows.cs" />
+    <Compile Include="System\DirectoryServices\Protocols\ldap\NativePal.Windows.cs" />
     <Compile Include="System\DirectoryServices\Protocols\ldap\LdapConnection.Windows.cs" />
-    <Compile Include="System\DirectoryServices\Protocols\ldap\LdapPartialResultsProcessor.Windows.cs" />
     <Compile Include="System\DirectoryServices\Protocols\ldap\LdapSessionOptions.Windows.cs" />
     <Compile Include="System\DirectoryServices\Protocols\ldap\SafeHandles.Windows.cs" />
     <Compile Include="System\DirectoryServices\Protocols\ldap\Wldap32UnsafeMethods.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetsLinux)' == 'true'">
-    <Compile Include="System\DirectoryServices\Protocols\common\BerConverter.Linux.cs" />
-    <Compile Include="System\DirectoryServices\Protocols\common\DirectoryControl.Linux.cs" />
+    <Compile Include="System\DirectoryServices\Protocols\ldap\NativePal.Linux.cs" />
     <Compile Include="System\DirectoryServices\Protocols\ldap\LdapConnection.Linux.cs" />
-    <Compile Include="System\DirectoryServices\Protocols\ldap\LdapPartialResultsProcessor.Linux.cs" />
     <Compile Include="System\DirectoryServices\Protocols\ldap\LdapSessionOptions.Linux.cs" />
     <Compile Include="System\DirectoryServices\Protocols\ldap\SafeHandles.Linux.cs" />
     <Compile Include="System\DirectoryServices\Protocols\ldap\OpenLdapUnsafeMethods.cs" />

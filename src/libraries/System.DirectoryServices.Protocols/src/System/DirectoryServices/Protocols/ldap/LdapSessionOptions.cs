@@ -305,7 +305,7 @@ namespace System.DirectoryServices.Protocols
                 }
 
                 var secInfo = new SecurityPackageContextConnectionInformation();
-                int error = PALldap_get_option_secInfo(_connection._ldapHandle, LdapOption.LDAP_OPT_SSL_INFO, secInfo);
+                int error = NativePal.LdapGetOptionSecInfo(_connection._ldapHandle, LdapOption.LDAP_OPT_SSL_INFO, secInfo);
                 ErrorChecking.CheckAndSetLdapError(error);
 
                 return secInfo;
@@ -323,7 +323,7 @@ namespace System.DirectoryServices.Protocols
 
                 SecurityHandle tempHandle = default;
 
-                int error = PALldap_get_option_sechandle(_connection._ldapHandle, LdapOption.LDAP_OPT_SECURITY_CONTEXT, ref tempHandle);
+                int error = NativePal.LdapGetOptionSechandle(_connection._ldapHandle, LdapOption.LDAP_OPT_SECURITY_CONTEXT, ref tempHandle);
                 ErrorChecking.CheckAndSetLdapError(error);
 
                 return tempHandle;
@@ -475,7 +475,7 @@ namespace System.DirectoryServices.Protocols
 
                 if (value != null)
                 {
-                    int certError = PALldap_set_option_clientcert(_connection._ldapHandle, LdapOption.LDAP_OPT_CLIENT_CERTIFICATE, _connection._clientCertificateRoutine);
+                    int certError = NativePal.LdapSetOptionClientcert(_connection._ldapHandle, LdapOption.LDAP_OPT_CLIENT_CERTIFICATE, _connection._clientCertificateRoutine);
                     if (certError != (int)ResultCode.Success)
                     {
                         if (Utility.IsLdapError((LdapError)certError))
@@ -517,7 +517,7 @@ namespace System.DirectoryServices.Protocols
 
                 if (value != null)
                 {
-                    int error = PALldap_set_option_servercert(_connection._ldapHandle, LdapOption.LDAP_OPT_SERVER_CERTIFICATE, _serverCertificateRoutine);
+                    int error = NativePal.LdapSetOptionServercert(_connection._ldapHandle, LdapOption.LDAP_OPT_SERVER_CERTIFICATE, _serverCertificateRoutine);
                     ErrorChecking.CheckAndSetLdapError(error);
                 }
 
@@ -546,7 +546,7 @@ namespace System.DirectoryServices.Protocols
 
             // Do the fast concurrent bind.
             int inValue = 1;
-            int error = PALldap_set_option_int(_connection._ldapHandle, LdapOption.LDAP_OPT_FAST_CONCURRENT_BIND, ref inValue);
+            int error = NativePal.LdapSetOptionInt(_connection._ldapHandle, LdapOption.LDAP_OPT_FAST_CONCURRENT_BIND, ref inValue);
             ErrorChecking.CheckAndSetLdapError(error);
         }
 
@@ -606,11 +606,11 @@ namespace System.DirectoryServices.Protocols
                     Marshal.WriteIntPtr(tempPtr, IntPtr.Zero);
                 }
 
-                int error = PALldap_start_tls(_connection._ldapHandle, ref serverError, ref ldapResult, serverControlArray, clientControlArray);
+                int error = NativePal.LdapStartTls(_connection._ldapHandle, ref serverError, ref ldapResult, serverControlArray, clientControlArray);
                 if (ldapResult != IntPtr.Zero)
                 {
                     // Parse the referral.
-                    int resultError = PALldap_parse_result_referral(_connection._ldapHandle, ldapResult, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, ref referral, IntPtr.Zero, 0 /* not free it */);
+                    int resultError = NativePal.LdapParseResultReferral(_connection._ldapHandle, ldapResult, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, ref referral, IntPtr.Zero, 0 /* not free it */);
                     if (resultError == 0 && referral != IntPtr.Zero)
                     {
                         char** referralPtr = (char**)referral;
@@ -629,7 +629,7 @@ namespace System.DirectoryServices.Protocols
                         // Free heap memory.
                         if (referral != IntPtr.Zero)
                         {
-                            PALldap_value_free(referral);
+                            NativePal.LdapValueFree(referral);
                             referral = IntPtr.Zero;
                         }
 
@@ -736,7 +736,7 @@ namespace System.DirectoryServices.Protocols
 
                 if (referral != IntPtr.Zero)
                 {
-                    PALldap_value_free(referral);
+                    NativePal.LdapValueFree(referral);
                 }
             }
         }
@@ -748,7 +748,7 @@ namespace System.DirectoryServices.Protocols
                 throw new ObjectDisposedException(GetType().Name);
             }
 
-            byte result = PALLdap_stop_tls();
+            byte result = NativePal.LdapStopTls(_connection._ldapHandle);
             if (result == 0)
             {
                 throw new TlsOperationException(null, SR.TLSStopFailure);
@@ -763,7 +763,7 @@ namespace System.DirectoryServices.Protocols
             }
 
             int outValue = 0;
-            int error = PALldap_get_option_int(_connection._ldapHandle, option, ref outValue);
+            int error = NativePal.LdapGetOptionInt(_connection._ldapHandle, option, ref outValue);
             ErrorChecking.CheckAndSetLdapError(error);
 
             return outValue;
@@ -777,7 +777,7 @@ namespace System.DirectoryServices.Protocols
             }
 
             int temp = value;
-            int error = PALldap_set_option_int(_connection._ldapHandle, option, ref temp);
+            int error = NativePal.LdapSetOptionInt(_connection._ldapHandle, option, ref temp);
 
             ErrorChecking.CheckAndSetLdapError(error);
         }
@@ -790,7 +790,7 @@ namespace System.DirectoryServices.Protocols
             }
 
             IntPtr outValue = new IntPtr(0);
-            int error = PALldap_get_option_ptr(_connection._ldapHandle, option, ref outValue);
+            int error = NativePal.LdapGetOptionPtr(_connection._ldapHandle, option, ref outValue);
             ErrorChecking.CheckAndSetLdapError(error);
 
             string stringValue = null;
@@ -801,7 +801,7 @@ namespace System.DirectoryServices.Protocols
 
             if (releasePtr)
             {
-                PALldap_memfree(outValue);
+                NativePal.LdapMemfree(outValue);
             }
 
             return stringValue;
@@ -822,7 +822,7 @@ namespace System.DirectoryServices.Protocols
 
             try
             {
-                int error = PALldap_set_option_ptr(_connection._ldapHandle, option, ref inValue);
+                int error = NativePal.LdapSetOptionPtr(_connection._ldapHandle, option, ref inValue);
                 ErrorChecking.CheckAndSetLdapError(error);
             }
             finally
@@ -843,7 +843,7 @@ namespace System.DirectoryServices.Protocols
                 notify = tempCallback.NotifyNewConnection == null ? null : _notifiyDelegate,
                 dereference = tempCallback.DereferenceConnection == null ? null : _dereferenceDelegate
             };
-            int error = PALldap_set_option_referral(_connection._ldapHandle, LdapOption.LDAP_OPT_REFERRAL_CALLBACK, ref value);
+            int error = NativePal.LdapSetOptionReferral(_connection._ldapHandle, LdapOption.LDAP_OPT_REFERRAL_CALLBACK, ref value);
             ErrorChecking.CheckAndSetLdapError(error);
         }
 
