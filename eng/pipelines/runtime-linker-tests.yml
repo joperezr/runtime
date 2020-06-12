@@ -7,10 +7,26 @@ trigger: none
 pr:
   branches:
     include:
-    - master
+    - TestingPipeline
 
 jobs:
 #
 # Checkout repository
 #
 - template: /eng/pipelines/common/checkout-job.yml
+
+#
+# Build Release config vertical for Windows, Linux, Linux musl and OSX
+#
+- template: /eng/pipelines/common/platform-matrix.yml
+  parameters:
+    jobTemplate: /eng/pipelines/common/global-build-job.yml
+    buildConfig: release
+    platforms:
+    - Windows_NT_x64
+    - OSX_x64
+    - Linux_x64
+    jobParameters:
+      testGroup: innerloop
+      nameSuffix: Runtime_Release
+      buildArgs: -c release
