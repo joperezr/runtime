@@ -30,3 +30,4 @@ jobs:
       testGroup: innerloop
       nameSuffix: Runtime_Release
       buildArgs: -c release
+      extraStepsTemplate: /eng/pipelines/common/upload-runtime-and-targeting-packs-setps.yml
