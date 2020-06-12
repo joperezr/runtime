@@ -29,26 +29,4 @@ jobs:
     jobParameters:
       testGroup: innerloop
       nameSuffix: Runtime_Release
-      buildArgs: -c release
-      postBuildExtraStepsTemplate: /eng/pipelines/common/upload-runtime-and-targeting-packs-setps.yml
-
-#
-# Libraries Test Build
-# Only when CoreCLR, Mono or Libraries is changed
-#
-- template: /eng/pipelines/common/platform-matrix.yml
-  parameters:
-    jobTemplate: /eng/pipelines/common/global-build-job.yml
-    buildConfig: release
-    platforms:
-    - Windows_NT_x64
-    jobParameters:
-      testGroup: innerloop
-      nameSuffix: Test_Build
-      buildArgs: -s libs.pretest -c release
-      dependsOn:
-      - checkout
-      - build_Linux_x64_release_Runtime_Release
-      - build_OSX_x64_release_Runtime_Release
-      - build_Windows_NT_x64_release_Runtime_Release
-      preBuildExtraStepsTemplate: /eng/pipelines/common/restore-runtime-packs-steps.yml
+      buildArgs: -s clr+libs+libs.tests -c release /p:LinkerTests=true
