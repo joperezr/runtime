@@ -95,8 +95,8 @@ stages:
         buildArgs: -s mono+libs+installer -c $(_BuildConfig)
         nameSuffix: AllSubsets_Mono
         isOfficialBuild: ${{ variables.isOfficialBuild }}
-        extraStepsTemplate: /eng/pipelines/common/upload-unsigned-artifacts-step.yml
-        extraStepsParameters:
+        postBuildExtraStepsTemplate: /eng/pipelines/common/upload-unsigned-artifacts-step.yml
+        postBuildExtraStepsParameters:
           name: MonoRuntimePacks
 
   #
@@ -125,8 +125,8 @@ stages:
           nameSuffix: AllSubsets_Mono_LLVMJIT
           runtimeVariant: LLVMJIT
           isOfficialBuild: ${{ variables.isOfficialBuild }}
-          extraStepsTemplate: /eng/pipelines/common/upload-unsigned-artifacts-step.yml
-          extraStepsParameters:
+          postBuildExtraStepsTemplate: /eng/pipelines/common/upload-unsigned-artifacts-step.yml
+          postBuildExtraStepsParameters:
             name: MonoRuntimePacks
       #LLVMAOT
       - jobTemplate: /eng/pipelines/common/global-build-job.yml
@@ -138,8 +138,8 @@ stages:
           nameSuffix: AllSubsets_Mono_LLVMAOT
           runtimeVariant: LLVMAOT
           isOfficialBuild: ${{ variables.isOfficialBuild }}
-          extraStepsTemplate: /eng/pipelines/common/upload-unsigned-artifacts-step.yml
-          extraStepsParameters:
+          postBuildExtraStepsTemplate: /eng/pipelines/common/upload-unsigned-artifacts-step.yml
+          postBuildExtraStepsParameters:
             name: MonoRuntimePacks
 
   #

@@ -12,15 +12,18 @@ parameters:
   pool: ''
   condition: true
   isOfficialBuild: false
-  extraStepsTemplate: ''
-  extraStepsParameters: {}
+  dependsOn: checkout
+  postBuildExtraStepsTemplate: ''
+  preBuildExtraStepsTemplate: ''
+  postBuildExtraStepsParameters: {}
+  preBuildExtraStepsParameters: {}
 
 jobs:
 - template: /eng/common/templates/job/job.yml
   parameters:
     name: ${{ format('build_{0}{1}_{2}_{3}_{4}', parameters.osGroup, parameters.osSubgroup, parameters.archType, parameters.buildConfig, parameters.nameSuffix) }}
     displayName: ${{ format('Build {0}{1} {2} {3} {4}', parameters.osGroup, parameters.osSubgroup, parameters.archType, parameters.buildConfig, parameters.nameSuffix) }}
-    dependsOn: checkout
+    dependsOn: ${{ parameters.dependsOn }}
     pool: ${{ parameters.pool }}
     container: ${{ parameters.container }}
     timeoutInMinutes: ${{ parameters.timeoutInMinutes }}
@@ -63,6 +66,16 @@ jobs:
           df -h
         displayName: Disk Usage before Build
 
+    # If intended to send extra steps before regular build add them here.
+    - ${{ if ne(parameters.preBuildExtraStepsTemplate, '') }}:
+      - template: ${{ parameters.preBuildExtraStepsTemplate }}
+        parameters:
+          osGroup: ${{ parameters.osGroup }}
+          osSubgroup: ${{ parameters.osSubgroup }}
+          archType: ${{ parameters.archType }}
+          buildConfig: ${{ parameters.buildConfig }}
+          ${{ insert }}: ${{ parameters.preBuildExtraStepsParameters }}
+
     # Build
     - script: $(Build.SourcesDirectory)$(dir)build$(scriptExt) -ci -arch ${{ parameters.archType }} $(_osParameter) ${{ parameters.buildArgs }} $(_officialBuildParameter) $(_crossBuildPropertyArg)
       displayName: Build product
@@ -73,15 +86,15 @@ jobs:
           df -h
         displayName: Disk Usage after Build
 
-      # If intended to send extra steps after regular build add them here.
-    - ${{ if ne(parameters.extraStepsTemplate, '') }}:
-      - template: ${{ parameters.extraStepsTemplate }}
+    # If intended to send extra steps after regular build add them here.
+    - ${{ if ne(parameters.postBuildExtraStepsTemplate, '') }}:
+      - template: ${{ parameters.postBuildExtraStepsTemplate }}
         parameters:
           osGroup: ${{ parameters.osGroup }}
           osSubgroup: ${{ parameters.osSubgroup }}
           archType: ${{ parameters.archType }}
           buildConfig: ${{ parameters.buildConfig }}
-          ${{ insert }}: ${{ parameters.extraStepsParameters }}
+          ${{ insert }}: ${{ parameters.postBuildExtraStepsParameters }}
 
     - task: PublishBuildArtifacts@1
       displayName: Publish Logs

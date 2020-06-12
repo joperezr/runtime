@@ -1,0 +1,24 @@
+steps:
+  - template: /eng/pipelines/common/download-artifact-step.yml
+    parameters:
+      displayName: win-x64 runtime pack
+      artifactName: RuntimePack.win-x64
+      artifactFileName: RuntimePack.win-x64
+      unpackFolder: $(Build.SourcesDirectory)/artifacts/bin
+      cleanUnpackFolder: false
+
+  - template: /eng/pipelines/common/download-artifact-step.yml
+    parameters:
+      displayName: linux-x64 runtime pack
+      artifactName: RuntimePack.linux-x64
+      artifactFileName: RuntimePack.linux-x64
+      unpackFolder: $(Build.SourcesDirectory)/artifacts/bin
+      cleanUnpackFolder: false
+
+  - template: /eng/pipelines/common/download-artifact-step.yml
+    parameters:
+      displayName: osx-64 runtime pack
+      artifactName: RuntimePack.osx-x64
+      artifactFileName: RuntimePack.osx-x64
+      unpackFolder: $(Build.SourcesDirectory)/artifacts/bin
+      cleanUnpackFolder: false

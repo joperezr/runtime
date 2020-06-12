@@ -1,17 +1,17 @@
-parameters:
-  name: ''
-
 steps:
 - task: CopyFiles@2
   displayName: Prepare job-specific runtime pack
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/artifacts/bin/microsoft.netcore.app.runtime.$(packageRid)'
-    TargetFolder: '$(Build.StagingDirectory)/RuntimePacks'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/RuntimePacks'
     CleanTargetFolder: true
 
-- task: PublishBuildArtifacts@1
-  displayName: Publish job-specific runtime pack
-  inputs:
-    pathToPublish: '$(Build.StagingDirectory)/RuntimePacks'
-    artifactName: RuntimePack$(packageRid)
-    artifactType: container
+- template: /eng/pipelines/common/upload-artifact-step.yml
+  parameters:
+      rootFolder: $(Build.ArtifactStagingDirectory)/RuntimePacks
+      includeRootFolder: false
+      archiveType: $(archiveType)
+      archiveExtension: $(archiveExtension)
+      tarCompression: $(tarCompression)
+      artifactName: RuntimePack.$(packageRid)
+      displayName: Runtime Pack Assets
