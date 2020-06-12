@@ -7,6 +7,7 @@ parameters:
   helixQueuesTemplate: ''
   platform: ''
   jobParameters: {}
+  packageRid: ''
 
 jobs:
 - template: ${{ coalesce(parameters.helixQueuesTemplate, parameters.jobTemplate) }}
@@ -40,6 +41,9 @@ jobs:
 
       - name: _BuildConfig
         value: $(buildConfigUpper)
+
+      - name: packageRid
+        value: ${{ parameters.packageRid }}
 
       - ${{ if eq(parameters.osGroup, 'Windows_NT') }}:
         - name: archiveExtension

@@ -132,6 +132,7 @@ jobs:
       osGroup: Linux
       archType: x64
       platform: Linux_x64
+      packageRid: linux-x64
       container:
         image: centos-7-359e48e-20200313130914
         registry: mcr
@@ -399,6 +400,7 @@ jobs:
       osGroup: OSX
       archType: x64
       platform: OSX_x64
+      packageRid: osx-x64
       jobParameters:
         runtimeFlavor: ${{ parameters.runtimeFlavor }}
         stagedBuild: ${{ parameters.stagedBuild }}
@@ -418,6 +420,7 @@ jobs:
       osGroup: Windows_NT
       archType: x64
       platform: Windows_NT_x64
+      packageRid: win-x64
       jobParameters:
         runtimeFlavor: ${{ parameters.runtimeFlavor }}
         stagedBuild: ${{ parameters.stagedBuild }}
