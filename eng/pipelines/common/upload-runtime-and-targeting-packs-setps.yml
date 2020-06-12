@@ -5,16 +5,13 @@ steps:
 - task: CopyFiles@2
   displayName: Prepare job-specific runtime pack
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/artifacts/bin/microsoft.netcore.app.runtime'
-    Contents: |
-      Shipping/**/*
-      NonShipping/**/*
-    TargetFolder: '$(Build.StagingDirectory)/UnsignedArtifacts/${{ parameters.name }}'
+    SourceFolder: '$(Build.SourcesDirectory)/artifacts/bin/microsoft.netcore.app.runtime.$(packageRid)'
+    TargetFolder: '$(Build.StagingDirectory)/RuntimePacks'
     CleanTargetFolder: true
 
 - task: PublishBuildArtifacts@1
-  displayName: Publish intermediate unsigned artifacts
+  displayName: Publish job-specific runtime pack
   inputs:
-    pathToPublish: '$(Build.StagingDirectory)/UnsignedArtifacts'
-    artifactName: IntermediateUnsignedArtifacts
+    pathToPublish: '$(Build.StagingDirectory)/RuntimePacks'
+    artifactName: RuntimePack$(packageRid)
     artifactType: container
