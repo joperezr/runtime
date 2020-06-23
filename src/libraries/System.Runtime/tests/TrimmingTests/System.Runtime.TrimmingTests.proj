@@ -6,7 +6,9 @@
     <TestConsoleAppSourceFiles Include="AppDomainGetThreadWindowsPrincipalTest.cs">
       <SkipOnTestRuntimes>osx-x64;linux-x64</SkipOnTestRuntimes>
     </TestConsoleAppSourceFiles>
-    <TestConsoleAppSourceFiles Include="GenericArraySortHelperTest.cs" />
+    <TestConsoleAppSourceFiles Include="GenericArraySortHelperTest.cs">
+      <AdditionalSourceFiles>Hello.cs;Goodbye.cs</AdditionalSourceFiles>
+    </TestConsoleAppSourceFiles>
     <TestConsoleAppSourceFiles Include="StackFrameHelperTest.cs">
       <!-- There is a bug with the linker where it is corrupting the pdbs while trimming
       causing the framework to not be able to get source line info any longer. This
