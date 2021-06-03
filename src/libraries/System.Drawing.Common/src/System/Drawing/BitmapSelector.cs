@@ -105,6 +105,7 @@ namespace System.Drawing
         }
 
         // internal for unit tests
+        [RequiresUnreferencedCode("Calls DoesAssemblyHaveCustomAttribute")]
         internal static bool SatelliteAssemblyOptIn(Assembly assembly)
         {
             // Try 4.5 public attribute type first
@@ -118,6 +119,7 @@ namespace System.Drawing
         }
 
         // internal for unit tests
+        [RequiresUnreferencedCode("Calls DoesAssemblyHaveCustomAttribute")]
         internal static bool SameAssemblyOptIn(Assembly assembly)
         {
             // Try 4.5 public attribute type first
@@ -141,6 +143,7 @@ namespace System.Drawing
         /// The manifest resource stream corresponding to <paramref name="originalName"/> with the
         /// current suffix applied; or if that is not found, the stream corresponding to <paramref name="originalName"/>.
         /// </returns>
+        [RequiresUnreferencedCode("Calls SameAssemblyOptIn")]
         public static Stream? GetResourceStream(Assembly assembly, Type type, string originalName)
         {
             if (Suffix != string.Empty)
@@ -202,6 +205,7 @@ namespace System.Drawing
         /// The manifest resource stream corresponding to <paramref name="originalName"/> with the
         /// current suffix applied; or if that is not found, the stream corresponding to <paramref name="originalName"/>.
         /// </returns>
+        [RequiresUnreferencedCode("Calls GetResourceStream")]
         public static Stream? GetResourceStream(Type type, string originalName)
         {
             return GetResourceStream(type.Module.Assembly, type, originalName);
@@ -217,6 +221,7 @@ namespace System.Drawing
         /// The icon created from a manifest resource stream corresponding to <paramref name="originalName"/> with the
         /// current suffix applied; or if that is not found, the stream corresponding to <paramref name="originalName"/>.
         /// </returns>
+        [RequiresUnreferencedCode("Calls GetResourceStream")]
         public static Icon CreateIcon(Type type, string originalName)
         {
             return new Icon(GetResourceStream(type, originalName)!);
@@ -232,6 +237,7 @@ namespace System.Drawing
         /// The bitmap created from a manifest resource stream corresponding to <paramref name="originalName"/> with the
         /// current suffix applied; or if that is not found, the stream corresponding to <paramref name="originalName"/>.
         /// </returns>
+        [RequiresUnreferencedCode("Calls GetResourceStream")]
         public static Bitmap CreateBitmap(Type type, string originalName)
         {
             return new Bitmap(GetResourceStream(type, originalName)!);

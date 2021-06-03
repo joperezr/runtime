@@ -37,11 +37,13 @@ namespace System.Drawing
             _imageFile = imageFile;
         }
 
+        [RequiresUnreferencedCode("Calls GetImageFromResource")]
         public ToolboxBitmapAttribute(Type t) : this(GetImageFromResource(t, null, false), GetImageFromResource(t, null, true))
         {
             _imageType = t;
         }
 
+        [RequiresUnreferencedCode("Calls GetImageFromResource")]
         public ToolboxBitmapAttribute(Type t, string name)
             : this(GetImageFromResource(t, name, false), GetImageFromResource(t, name, true))
         {
@@ -72,8 +74,10 @@ namespace System.Drawing
 
         public override int GetHashCode() => base.GetHashCode();
 
+        [RequiresUnreferencedCode("Calls GetImage")]
         public Image? GetImage(object? component) => GetImage(component, true);
 
+        [RequiresUnreferencedCode("Calls GetImage")]
         public Image? GetImage(object? component, bool large)
         {
             if (component != null)
@@ -84,10 +88,13 @@ namespace System.Drawing
             return null;
         }
 
+        [RequiresUnreferencedCode("Calls GetImage")]
         public Image? GetImage(Type type) => GetImage(type, false);
 
+        [RequiresUnreferencedCode("Calls GetImage")]
         public Image? GetImage(Type type, bool large) => GetImage(type, null, large);
 
+        [RequiresUnreferencedCode("Calls GetImageFromResource")]
         public Image? GetImage(Type type, string? imgName, bool large)
         {
             if ((large && _largeImage == null) || (!large && _smallImage == null))
@@ -219,6 +226,7 @@ namespace System.Drawing
             return image;
         }
 
+        [RequiresUnreferencedCode("Calls GetResourceStream")]
         private static Image? GetBitmapFromResource(Type t, string? bitmapname, bool large, bool scaled)
         {
             if (bitmapname == null)
@@ -249,6 +257,7 @@ namespace System.Drawing
             return img;
         }
 
+        [RequiresUnreferencedCode("Calls BitmapSelector.GetResourceStream")]
         private static Image? GetIconFromResource(Type t, string? bitmapname, bool large, bool scaled)
         {
             if (bitmapname == null)
@@ -259,11 +268,13 @@ namespace System.Drawing
             return GetIconFromStream(BitmapSelector.GetResourceStream(t, bitmapname), large, scaled);
         }
 
+        [RequiresUnreferencedCode("Calls GetImageFromResource")]
         public static Image? GetImageFromResource(Type t, string? imageName, bool large)
         {
             return GetImageFromResource(t, imageName, large, scaled: true);
         }
 
+        [RequiresUnreferencedCode("Calls GetBitmapFromResource")]
         internal static Image? GetImageFromResource(Type t, string? imageName, bool large, bool scaled)
         {
             Image? img = null;
@@ -346,6 +357,7 @@ namespace System.Drawing
         private static readonly ToolboxBitmapAttribute s_defaultComponent;
 
 #pragma warning disable CA1810 // DummyFunction apparently needs to be invoked prior to the rest of the initialization
+        [RequiresUnreferencedCode("Calls GetResourceStream")]
         static ToolboxBitmapAttribute()
         {
             // When we call Gdip.DummyFunction, JIT will make sure Gdip..cctor will be called.
